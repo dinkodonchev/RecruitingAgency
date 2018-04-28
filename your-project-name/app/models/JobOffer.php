@@ -23,4 +23,10 @@ class JobOffer extends Eloquent implements JobOfferInterface, RemindableInterfac
 	 */
 	protected $hidden = array('password', 'remember_token');
 
+	 public function candidate(){
+
+    	return $this->hasMany('App\Candidates');
+
+    }
+
 }

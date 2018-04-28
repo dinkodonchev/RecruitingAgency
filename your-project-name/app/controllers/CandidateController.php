@@ -59,9 +59,9 @@ class CandidateController extends Controller
         //store in the database
         $candidate = new Candidate;
 
-        $post->name = $request->name;
-        $post->slug = $request->slug;
-        $candidate->category_id = $request->category_id;
+        $candidate->name = $request->name;
+        
+        $candidate->experience = $request->experience;
         
 
 
@@ -70,7 +70,7 @@ class CandidateController extends Controller
         Session::flash('success', 'The candidate was successfully saved!');
 
         //redirect to another page or action
-        return redirect()->route('posts.show', $post->id);
+        return redirect()->route('candidates.show', $post->id);
     }
 
     /**
@@ -81,8 +81,8 @@ class CandidateController extends Controller
      */
     public function show($id)
     {
-        $post = Post::find($id);
-        return view('posts.show')->withPost($post);
+        $candidate = Candidate::find($id);
+        return view('candidates.show')->withCandidate($candidate);
         //
     }
 
@@ -94,10 +94,10 @@ class CandidateController extends Controller
      */
     public function edit($id)
     {
-        //find the post in the db and save it as a variable
-        $post = Post::find($id);
+        //find the candidate in the db and save it as a variable
+        $candidate = Candidate::find($id);
         //return the view and pass that info in the var we previously created
-        return view('posts.edit')->withPost($post);
+        return view('$candidates.edit')->withCandidate($post);
 
 
     }
@@ -111,36 +111,22 @@ class CandidateController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $post = Post::find($id);
-        if ($request->input('slug') == $post->slug){
-            $this->validate($request, array(
-                'title'=>'required|max:255',
-                'body'=>'required'
-            ));
-        }
-        else{
-        //validate the data 
-        $this->validate($request, array(
-                'title'=>'required|max:255',
-                'slug' => 'required|alpha_dash|min:5|max:255|unique:posts,slug',
-                'body'=>'required'
-            ));
-        }
-
+        $candidate = Candidate::find($id);
+       
         //save the data to the db
-        $post = Post::find($id);
+        $candidate = Post::find($id);
 
-        $post->title = $request->input('title');
-        $post->slug = $request->input('slug');
-        $post->body = $request->input('body');
+        $candidate->name = $request->input('name');
+        $candidate->experience = $request->input('experience');
+        
 
-        $post->save();
+        $candidate->save();
 
         //set flash with success message
-        Session::flash('success', 'This post was successfully saved!');
+        Session::flash('success', 'This candidate was successfully saved!');
 
         //redirect with flash to show request
-        return redirect()->route('posts.show', $post->id);
+        return redirect()->route('candidates.show', $candidate->id);
     }
 
     /**
@@ -152,11 +138,11 @@ class CandidateController extends Controller
     public function destroy($id)
     {
         //
-        $post = Post::find($id);
+        $candidate = Candidate::find($id);
 
-        $post->delete();
+        $candidate->delete();
 
-        Session::flash('success', 'The post was successfully deleted.');
-        return redirect()->route('posts.index');
+        Session::flash('success', 'The candidate was successfully deleted.');
+        return redirect()->route('candidates.index');
     }
 }

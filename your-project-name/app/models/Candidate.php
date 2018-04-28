@@ -23,4 +23,10 @@ class Candidate extends Eloquent implements CandidateInterface, RemindableInterf
 	 */
 	protected $hidden = array('password', 'remember_token');
 
+	 public function offer(){
+
+    	return $this->belongsToMany('App\JobOffer');
+
+    }
+
 }
