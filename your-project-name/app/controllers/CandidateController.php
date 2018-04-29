@@ -70,7 +70,7 @@ class CandidateController extends Controller
         Session::flash('success', 'The candidate was successfully saved!');
 
         //redirect to another page or action
-        return redirect()->route('candidates.show', $post->id);
+        return redirect()->route('candidates.show', $candidate->id);
     }
 
     /**
@@ -97,7 +97,7 @@ class CandidateController extends Controller
         //find the candidate in the db and save it as a variable
         $candidate = Candidate::find($id);
         //return the view and pass that info in the var we previously created
-        return view('$candidates.edit')->withCandidate($post);
+        return view('$candidates.edit')->withCandidate($candidate);
 
 
     }
@@ -114,7 +114,7 @@ class CandidateController extends Controller
         $candidate = Candidate::find($id);
        
         //save the data to the db
-        $candidate = Post::find($id);
+        
 
         $candidate->name = $request->input('name');
         $candidate->experience = $request->input('experience');
